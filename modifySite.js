@@ -10,6 +10,48 @@ const styles = `
 const styleElement = document.createElement('style');
 styleElement.innerHTML = styles;
 document.querySelector('body').appendChild(styleElement);
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+
+if(params.openWithMarky) {
+    console.log("YES!", params)
+    const text = params.outer;
+
+    const matches = [];
+
+    for (const div of document.querySelectorAll('p')) {
+        if (div.textContent.includes(text)) {
+            matches.push(div);
+        }
+    }
+    if(matches.length == 0) {
+        for (const div of document.querySelectorAll('span')) {
+            if (div.textContent.includes(text)) {
+                matches.push(div);
+            }
+        }
+    }
+    if(matches.length == 0) {
+        for (const div of document.querySelectorAll('h1')) {
+            if (div.textContent.includes(text)) {
+                matches.push(div);
+            }
+        }
+    }
+    if(matches.length == 0) {
+        for (const div of document.querySelectorAll('div')) {
+            if (div.textContent.includes(text)) {
+                matches.push(div);
+            }
+        }
+    };
+
+    if(matches.length !== 0) {
+        matches[0].style.background = "#a1a1ff";
+        matches[0].style.color = "white";
+    }
+    console.log(matches); 
+}
 
 document.addEventListener('mouseup', function(e){
     var selection;
@@ -41,7 +83,8 @@ document.addEventListener('mouseup', function(e){
             content: selection.toString(),
             url: selection.anchorNode.baseURI,
             entireContent: selection.anchorNode.textContent,
-            name
+            name,
+            outerHtml: selection.toString(),
         };
         console.log(selectionData);
         chrome.storage.sync.get(["selections"], function(result) {

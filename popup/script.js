@@ -21,7 +21,13 @@ const getSelections = () => {
             container.onclick = () => {
                 setTimeout(() => {
                     if(doubleClicked) return;
-                    window.open(selection.url)
+                    const urlSearchParams = new URLSearchParams(new URL(selection.url).search);
+                    const params = Object.fromEntries(urlSearchParams.entries());
+                    if(Object.keys(params).length == 0) {
+                        window.open((selection.url + `?openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                    } else {
+                        window.open((selection.url + `&openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                    };
                 }, 501);
             };
     
