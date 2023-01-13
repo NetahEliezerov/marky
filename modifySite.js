@@ -45,7 +45,13 @@ if(params.openWithMarky) {
             }
         }
     };
-
+    if(matches.length == 0) {
+        for (const div of document.querySelectorAll('h2')) {
+            if (div.textContent.includes(text)) {
+                matches.push(div);
+            }
+        }
+    };
     if(matches.length !== 0) {
         matches[0].style.background = "#a1a1ff";
         matches[0].style.color = "white";
@@ -53,33 +59,17 @@ if(params.openWithMarky) {
     console.log(matches); 
 }
 
-document.addEventListener('mouseup', function(e){
-    var selection;
-    let container = document.createElement('button');
+document.addEventListener('keydown', function(e){
+    if (e.key.toLowerCase() === 's' && e.altKey) {
+        var selection;
 
-    container.style.background = '#005bff';
-    container.style.animationName = "fade";
-    container.style.animationDuration = "300ms";
-    container.style.color = "white";
-    container.style.width = '10vw';
-    container.style.height = '7vh';
-    container.style.zIndex = "1";
-    container.style.borderRadius = '2vw';
-    container.id = "markerExtensionThing";
-    container.style.padding = '0.75vw';
-    container.style.textAlign = "center";
-    container.style.border = "none";
-    container.style.cursor = 'pointer';
-    container.innerHTML = "Save";
-
-    container.addEventListener('click', () => {
+        if (window.getSelection) {
+            selection = window.getSelection();
+        } else if (document.selection) {
+            selection = document.selection.createRange();
+        }
         let name = prompt('Enter the name of this mark');
         console.log(name);
-        if(name == null) {
-            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
-            return;
-        };
-        const selection = window.getSelection();
         const selectionData = {
             content: selection.toString(),
             url: selection.anchorNode.baseURI,
@@ -94,31 +84,7 @@ document.addEventListener('mouseup', function(e){
             array.push(selectionData);
             chrome.storage.sync.set({ selections: array }, function() {
                 console.log("Saved a new array item");
-                document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
             });
         });
-    });
-
-    if (window.getSelection) {
-        selection = window.getSelection();
-    } else if (document.selection) {
-        selection = document.selection.createRange();
-    }
-    
-    if(selection.toString() !== '') {
-        if(lastFocused != selection.focusNode.parentNode) {
-            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
-            lastFocused = null;
-        }
-
-        selection.focusNode.parentNode.appendChild(container);
-        lastFocused = selection.focusNode.parentNode;
-    } else {
-        if(document.getElementById('markerExtensionThing') != null) {
-            console.log("here", document.getElementById('markerExtensionThing'))
-            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
-            lastFocused = null;
-        };
-        document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
     }
 });

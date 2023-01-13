@@ -11,6 +11,10 @@ const getSelections = () => {
             let subtitle = document.createElement('h3');
             let urltitle = document.createElement('h4');
             let markedContent = document.createElement('mark');
+            title.style.fontWeight = "800"
+            subtitle.style.fontWeight = "600"
+            urltitle.style.fontWeight = "500"
+            markedContent.style.borderRadius = "0.7vw";
             const where = selection.entireContent.indexOf(selection.content);
             const finalStr1 = selection.entireContent.substring(where-30, where+30);
             const asdasda = selection.entireContent.split(' ').find(e => e.includes(finalStr1.split(' ')[0]));
@@ -49,7 +53,7 @@ const getSelections = () => {
             markedContent.style.background = "#a1a1ff";
             subtitle.innerHTML = finalStr2.replace(selection.content, markedContent.outerHTML);
             subtitle.style.width = "60%";
-            urltitle.innerHTML = selection.url.substring(0, 50) + '...';
+            urltitle.innerHTML = new URL(selection.url).host;
             urltitle.style.opacity = "0.4";
             container.className = "container";
             title.innerHTML = selection.name;
