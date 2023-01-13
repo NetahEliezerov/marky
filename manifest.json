@@ -1,0 +1,20 @@
+{
+    "name": "Marky",
+    "description": "Mark texts in webpages",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "content_scripts": [{
+        "js": ["modifySite.js"],
+        "matches": ["*://*/*"]
+    }],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "Marky"
+    }
+}
