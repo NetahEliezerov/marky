@@ -49,7 +49,7 @@ const getSelections = () => {
             markedContent.style.background = "#a1a1ff";
             subtitle.innerHTML = finalStr2.replace(selection.content, markedContent.outerHTML);
             subtitle.style.width = "60%";
-            urltitle.innerHTML = selection.url;
+            urltitle.innerHTML = selection.url.substring(0, 50) + '...';
             urltitle.style.opacity = "0.4";
             container.className = "container";
             title.innerHTML = selection.name;

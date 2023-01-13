@@ -76,6 +76,7 @@ document.addEventListener('mouseup', function(e){
         let name = prompt('Enter the name of this mark');
         console.log(name);
         if(name == null) {
+            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
             return;
         };
         const selection = window.getSelection();
@@ -93,8 +94,7 @@ document.addEventListener('mouseup', function(e){
             array.push(selectionData);
             chrome.storage.sync.set({ selections: array }, function() {
                 console.log("Saved a new array item");
-                lastFocused.removeChild(document.getElementById('markerExtensionThing'));
-                lastFocused.removeChild(document.getElementById('markerExtensionThing'));
+                document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
             });
         });
     });
@@ -106,8 +106,8 @@ document.addEventListener('mouseup', function(e){
     }
     
     if(selection.toString() !== '') {
-        if(lastFocused != selection.focusNode.parentNode && lastFocused) {
-            lastFocused.removeChild(document.getElementById('markerExtensionThing'));
+        if(lastFocused != selection.focusNode.parentNode) {
+            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
             lastFocused = null;
         }
 
@@ -115,9 +115,10 @@ document.addEventListener('mouseup', function(e){
         lastFocused = selection.focusNode.parentNode;
     } else {
         if(document.getElementById('markerExtensionThing') != null) {
-            console.log("here", document.getElementById('markerExtensionThing'));
-            lastFocused.removeChild(document.getElementById('markerExtensionThing'));
+            console.log("here", document.getElementById('markerExtensionThing'))
+            document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
             lastFocused = null;
         };
+        document.querySelectorAll('button#markerExtensionThing').forEach(e => e.remove());
     }
 });
