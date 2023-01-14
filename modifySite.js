@@ -52,15 +52,22 @@ if(params.openWithMarky) {
             }
         }
     };
+    console.log(matches, "hre");
     if(matches.length !== 0) {
-        matches[0].style.background = "#a1a1ff";
-        matches[0].style.color = "white";
+        // matches[0].style.background = "#a1a1ff";
+        // matches[0].style.color = "white";
+        matches[0].innerHTML = (matches[0].innerHTML.replace(params.marked, `<mark style="
+            border-radius: 0.5vw;
+            padding-left: 4px;
+            padding-right: 4px;
+            background: #a1a1ff;";
+        >${params.marked}</mark>`));
     }
     console.log(matches); 
 }
 
 document.addEventListener('keydown', function(e){
-    if (e.key.toLowerCase() === 's' && e.altKey) {
+    if (e.key.toLowerCase() === 's' && e.shiftKey) {
         var selection;
 
         if (window.getSelection) {
@@ -68,7 +75,10 @@ document.addEventListener('keydown', function(e){
         } else if (document.selection) {
             selection = document.selection.createRange();
         }
-        let name = prompt('Enter the name of this mark');
+        let name = prompt('Enter the name of this mark', selection.toString());
+        if(name == null) {
+            return;
+        }
         console.log(name);
         const selectionData = {
             content: selection.toString(),

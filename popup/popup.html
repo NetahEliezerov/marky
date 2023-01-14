@@ -2,6 +2,13 @@
 <html>
     <body style="width: 450px; border-radius: 10px;">
         <h1 style="text-align: center; font-weight: 900">Marker</h1>
+        
+        <label class="custom-file-upload">
+            <input type="file" id="file-input" />
+            Import
+        </label>
+        <br>
+        <label class="custom-file-upload" id="exportBtn">Export</label>
 
         <div id="allSelections"></div>
 
@@ -23,6 +30,17 @@
                 overflow: auto;
                 cursor: pointer;
                 margin: 5%;
+            }
+            input[type="file"] {
+                display: none;
+            }
+            .custom-file-upload {
+                vertical-align: middle;
+                display: table;
+                text-align: center;
+                margin: auto;
+                cursor: pointer;
+                opacity: 0.5;
             }
         </style>
     </body>

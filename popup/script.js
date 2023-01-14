@@ -1,5 +1,36 @@
 const allSelections = document.getElementById('allSelections');
-console.log(chrome.storage.sync);
+
+const exportMarks = () => {
+    console.log("asd");
+    chrome.storage.sync.get(["selections"], function(result) {
+        console.log(result.selections);
+        chrome.downloads.download({
+            url: `data:appliction/json;charset=utf-8,${encodeURIComponent(JSON.stringify(result.selections))}`,
+            filename: "marky.json"
+        });
+    });
+};
+
+const importMarks = (e) => {
+    var file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var contents = e.target.result;
+        chrome.storage.sync.set({ selections: JSON.parse(contents) }, function() {
+            console.log("asasd", contents);
+            getSelections();
+        });
+    };
+    reader.readAsText(file);
+};
+document.getElementById('file-input')
+    .addEventListener('change', importMarks, false);
+
+document.getElementById('exportBtn').onclick = exportMarks;
+
 const getSelections = () => {
     chrome.storage.sync.get(["selections"], function(result) {
         console.log(result.selections);
@@ -27,26 +58,40 @@ const getSelections = () => {
                     if(doubleClicked) return;
                     const urlSearchParams = new URLSearchParams(new URL(selection.url).search);
                     const params = Object.fromEntries(urlSearchParams.entries());
-                    if(Object.keys(params).length == 0) {
-                        window.open((selection.url + `?openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                    if(String(selection.url)[selection.url.length] != "/") {
+                        if(Object.keys(params).length == 0) {
+                            window.open((selection.url + `/?openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                        } else {
+                            window.open((selection.url + `&openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                        };
                     } else {
-                        window.open((selection.url + `&openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
-                    };
+                        if(Object.keys(params).length == 0) {
+                            window.open((selection.url + `?openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                        } else {
+                            window.open((selection.url + `&openWithMarky=true&outer=${finalStr1}&marked=${selection.content}`));
+                        };
+                    }
                 }, 501);
             };
     
             container.addEventListener('dblclick', () => {
-                const thisItemIdx = result.selections.indexOf(selection);
-                console.log(thisItemIdx)
-                if(thisItemIdx > -1) {
-                    const slicedArray = result.selections.splice(thisItemIdx, 1);
-                    console.log(slicedArray)
-                    chrome.storage.sync.set({ selections: result.selections }, function() {
-                        console.log('successfully deleted!');
-                    });
-                    doubleClicked = true;
-                    getSelections();
-                }
+                let areusure = prompt(`Are you sure you want to delete ${selection.name}`);
+                doubleClicked = true;
+                setTimeout(() => {
+                    doubleClicked = false;
+                    if(areusure == null) return;
+                    const thisItemIdx = result.selections.indexOf(selection);
+                    console.log(thisItemIdx)
+                    if(thisItemIdx > -1) {
+                        const slicedArray = result.selections.splice(thisItemIdx, 1);
+                        console.log(slicedArray)
+                        chrome.storage.sync.set({ selections: result.selections }, function() {
+                            console.log('successfully deleted!');
+                        });
+                        doubleClicked = true;
+                        getSelections();
+                    }
+                }, 500);
             });
     
             markedContent.innerHTML = selection.content;
