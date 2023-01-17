@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
     <body style="width: 450px; border-radius: 10px;">
-        <h1 style="text-align: center; font-weight: 900">Marker</h1>
+        <h1 style="text-align: center; font-weight: 900">Marky</h1>
         
-        <label class="custom-file-upload">
-            <input type="file" id="file-input" />
-            Import
-        </label>
-        <br>
-        <label class="custom-file-upload" id="exportBtn">Export</label>
+        <div class="custom-file-upload">
+            <label class="importExprtBtn">
+                <input type="file" id="file-input" />
+                Import
+            </label>
+            <label style="margin-left: 5vw;" id="exportBtn" class="importExprtBtn">Export</label>
+        </div>
 
         <div id="allSelections"></div>
 
@@ -20,9 +21,25 @@
                 background-color: black;
                 color: white;
             }
+
+            .deleteBtn {
+                display: inline-block;
+                color: rgb(255, 66, 66);
+                float: right;
+                transition-duration: 300ms;
+                padding-right: 20px;
+                opacity: 0.5;
+            }
+
+            .deleteBtn:hover {
+                opacity: 1;
+            }
+
             .container {
                 background-color: rgb(25, 25, 25);
-                padding: 10px;
+                padding-left: 20px;
+                padding-top: 5px;
+                padding-bottom: 5px;
                 /* width: 90%; */
                 /* height: 20vw; */
                 max-height: 33%;
@@ -39,8 +56,19 @@
                 display: table;
                 text-align: center;
                 margin: auto;
-                cursor: pointer;
+            }
+            .importExprtBtn {
                 opacity: 0.5;
+                transition-duration: 300ms;
+                cursor: pointer;
+            }
+
+            .importExprtBtn:hover {
+                opacity: 1;
+            }
+
+            ::selection {
+                background-color: #a1a1ff;
             }
         </style>
     </body>

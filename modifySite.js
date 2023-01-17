@@ -56,6 +56,8 @@ if(params.openWithMarky) {
     if(matches.length !== 0) {
         // matches[0].style.background = "#a1a1ff";
         // matches[0].style.color = "white";
+        const coords = matches[0].getBoundingClientRect();
+        window.scrollTo(0, coords.y - 150);
         matches[0].innerHTML = (matches[0].innerHTML.replace(params.marked, `<mark style="
             border-radius: 0.5vw;
             padding-left: 4px;
