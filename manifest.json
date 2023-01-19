@@ -1,7 +1,7 @@
 {
     "name": "Marky",
     "description": "Mark texts in webpages",
-    "version": "2.0",
+    "version": "2.1",
     "manifest_version": 3,
     "permissions": [
         "storage",

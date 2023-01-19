@@ -1,5 +1,4 @@
 let lastFocused;
-console.log(chrome)
 
 const styles = `
     @keyframes fade {
@@ -14,7 +13,6 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
 
 if(params.openWithMarky) {
-    console.log("YES!", params)
     const text = params.outer;
 
     const matches = [];
@@ -65,7 +63,6 @@ if(params.openWithMarky) {
             background: #a1a1ff;";
         >${params.marked}</mark>`));
     }
-    console.log(matches); 
 }
 
 document.addEventListener('keydown', function(e){
@@ -81,7 +78,6 @@ document.addEventListener('keydown', function(e){
         if(name == null) {
             return;
         }
-        console.log(name);
         const selectionData = {
             content: selection.toString(),
             url: selection.anchorNode.baseURI,
@@ -89,13 +85,11 @@ document.addEventListener('keydown', function(e){
             name,
             outerHtml: selection.toString(),
         };
-        console.log(selectionData);
         chrome.storage.sync.get(["selections"], function(result) {
             var array = result.selections?result.selections:[];
 
             array.push(selectionData);
             chrome.storage.sync.set({ selections: array }, function() {
-                console.log("Saved a new array item");
             });
         });
     }
